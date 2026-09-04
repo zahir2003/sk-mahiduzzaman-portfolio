@@ -2,6 +2,7 @@ import { profile, experience, projects, skills, education } from "@/data/portfol
 import ThemeToggle from "@/components/ThemeToggle";
 import DynamicHero from "@/components/DynamicHero";
 import RevealObserver from "@/components/RevealObserver";
+import MessageForm from "@/components/MessageForm";
 
 const Arrow = () => <span aria-hidden="true">↗</span>;
 
@@ -10,7 +11,7 @@ export default function Home() {
     <main>
       <RevealObserver />
       <header className="nav">
-        <a className="brand" href="#top"><span className="brand-mark">SM</span><span>SK / MAHIDUZZAMAN</span></a>
+        <a className="brand" href="#top"><span className="brand-mark">SK</span><span className="brand-name">MAHIDUZZAMAN</span></a>
         <nav className="nav-links" aria-label="Primary navigation">
           <a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#resume">CV</a><a href="#contact">Contact</a>
         </nav>
@@ -54,8 +55,9 @@ export default function Home() {
       <section id="contact" className="contact section-shell section reveal">
         <p className="eyebrow">07 / CONTACT</p><h2>Let&apos;s build something<br /><em>intelligent.</em></h2>
         <p className="contact-copy">I&apos;m interested in AI/ML, GenAI, NLP and MLOps opportunities where I can build practical systems and keep learning.</p>
+        <MessageForm />
         <div className="contact-actions"><a className="button button-primary" href={`mailto:${profile.email}`}>Email me <Arrow /></a><a className="button button-ghost" href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn <Arrow /></a><a className="button button-ghost" href={profile.github} target="_blank" rel="noreferrer">GitHub <Arrow /></a></div>
-        <div className="contact-footer"><span>{profile.email}</span><span>{profile.phone}</span><span>© {new Date().getFullYear()} SK MAHIDUZZAMAN</span></div>
+        <div className="contact-footer"><span className="contact-detail"><strong>Mail ID:</strong><a href={`mailto:${profile.email}`}>{profile.email}</a></span><span className="contact-detail"><strong>Contact No.:</strong><a href={`tel:${profile.phone.replace(/\s+/g, "")}`}>{profile.phone}</a></span><span>© {new Date().getFullYear()} SK MAHIDUZZAMAN</span></div>
       </section>
     </main>
   );

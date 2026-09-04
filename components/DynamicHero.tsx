@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
@@ -45,15 +45,65 @@ export default function DynamicHero() {
     const node = visualRef.current;
     if (!node) return;
 
+    // Detect if device supports touch
+    const isTouchDevice = () => {
+      return (
+        typeof window !== "undefined" &&
+        (window.matchMedia("(hover: none) and (pointer: coarse)").matches ||
+          navigator.maxTouchPoints > 0)
+      );
+    };
+
+    const isTouch = isTouchDevice();
+
+    // Mouse-based parallax for desktop
     const onMove = (event: MouseEvent) => {
+      if (isTouch) return;
       const x = (event.clientX / window.innerWidth - 0.5) * 2;
       const y = (event.clientY / window.innerHeight - 0.5) * 2;
       node.style.setProperty("--mx", `${x}`);
       node.style.setProperty("--my", `${y}`);
     };
 
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMove);
+    // Scroll-based parallax for mobile/tablet
+    const onScroll = () => {
+      if (!isTouch) return;
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const heroRect = node.getBoundingClientRect();
+      const distanceFromCenter = heroRect.top + heroRect.height / 2 - windowHeight / 2;
+
+      const x = (distanceFromCenter / windowHeight) * 0.3;
+      const y = (scrollY / windowHeight) * 0.2;
+
+      node.style.setProperty("--mx", `${x}`);
+      node.style.setProperty("--my", `${y}`);
+    };
+
+    // Touch tilt for mobile (using device orientation if available)
+    const onTouchMove = (event: TouchEvent) => {
+      if (!isTouch || event.touches.length === 0) return;
+      const touch = event.touches[0];
+      const x = (touch.clientX / window.innerWidth - 0.5) * 1.5;
+      const y = (touch.clientY / window.innerHeight - 0.5) * 1.5;
+      node.style.setProperty("--mx", `${x}`);
+      node.style.setProperty("--my", `${y}`);
+    };
+
+    if (isTouch) {
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("touchmove", onTouchMove, { passive: true });
+      // Initial scroll calculation
+      onScroll();
+    } else {
+      window.addEventListener("mousemove", onMove, { passive: true });
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("touchmove", onTouchMove);
+    };
   }, []);
 
   return (

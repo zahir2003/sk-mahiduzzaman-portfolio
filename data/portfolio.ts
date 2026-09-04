@@ -58,8 +58,8 @@ export const projects = [
 
 export const skills = {
   "AI / ML": ["Machine Learning", "Deep Learning", "NLP", "RAG", "LLMs"],
-  "Frameworks": ["TensorFlow", "PyTorch", "LangChain 0.3", "Hugging Face"],
-  "Data": ["MySQL", "MongoDB"],
+  "Frameworks": ["TensorFlow", "PyTorch", "LangChain 0.3", "Hugging Face", "FastAPI"],
+  "Data": ["MySQL", "MongoDB", "Power BI"],
   "Engineering": ["Python", "C", "Git", "GitHub", "Docker", "DVC", "AWS"],
 };
 
